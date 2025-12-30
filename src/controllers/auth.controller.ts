@@ -1,8 +1,11 @@
+import { verify } from "node:crypto";
 import { CREATED, OK } from "../constants/http";
 import { createAccount, loginUser } from "../services/auth.service";
 import catchErrors from "../utils/catch.errors";
-import { setAuthCookies } from "../utils/cookies";
+import { clearAuthCookie, setAuthCookies } from "../utils/cookies";
 import { loginSchema, registerSchema } from "./auth.schemas";
+import { verifyToken } from "../utils/jwt";
+import { SessionModel } from "../models/session.model";
 
 
 
@@ -31,5 +34,26 @@ export const loginHandler = catchErrors( async(req , res) => {
 
     return setAuthCookies({res, accessToken, refreshToken}).status(OK).json(user);
 });
+
+
+export const logoutHandler = catchErrors(async (req, res) => {
+
+        const accessToken = req.cookies.accessToken as string || undefined;
+        const { payload } = verifyToken(accessToken || "");
+
+        if(payload) {
+            SessionModel.findByIdAndDelete(payload.sessionId);
+        }
+
+        return clearAuthCookie(res).status(OK).json({
+            message : "Logout Successfully"
+        })
+
+});
+
+
+
+
+
 
 
