@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev --files src/index.ts",
+    "dev": "ts-node-dev --files src/index.ts index.d.ts",
     "compile": "tsc && node ./dist/index.js",
     "start": "nodemon -e ts --exec \"npm run compile\" "
   },
@@ -21,7 +21,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^9.0.0",
     "nodemon": "^3.1.11",
-    "resend": "^6.5.2",
+    "resend": "^6.6.0",
     "zod": "^4.1.12"
   },
   "devDependencies": {

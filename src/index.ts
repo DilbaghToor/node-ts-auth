@@ -9,6 +9,8 @@ import errorHandler from "./middleware/error.handler";
 import catchErrors from "./utils/catch.errors";
 import { OK } from "./constants/http";
 import authRoutes from "./routes/auth.routes";
+import authenticate from "./middleware/authenticate";
+import userRoutes from "./routes/user.routes";
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -29,6 +31,9 @@ app.get("/", (req, res, next) => {
 
 /** auth routes */
 app.use("/auth", authRoutes);
+
+/** protected routes */
+app.use("/user", authenticate, userRoutes);
 
 app.use(errorHandler);
 
